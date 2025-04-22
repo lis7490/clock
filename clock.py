@@ -20,10 +20,33 @@ while notif != "сигнал" and notif != "текст":
             raise ValueError
     except ValueError:
         print("Ошибка! Пример ввода: cигнал")
+if notif == "сигнал":
+    def init_music():
+        """Запрашивает у пользователя выбор мелодии для будильника"""
+        music_list = ["mellen.mp3", "morning.mp3", "Barbarossa.mp3"]
+        music = ''
+        while music not in music_list:
+            try:
+
+                music = input(f"Выберите мелодию из списка: {music_list[0]}, {music_list[1]}, {music_list[2]}:  ")
+                if music not in music_list:
+                    raise ValueError
+
+            except ValueError:
+                print(f"Ошибка. Введите мелодию из списка: {music_list[0]}, {music_list[1]} (например: mellen.mp3).")
+        sound = pygame.mixer.Sound(music)
+
+        return sound
+
+
+    choice_music = init_music()  # функция выбора музыки
+
+
+
 
 
 def get_user_time():
-    """Запрашивает у пользователя время в формате HH:MM и возвращает объект time."""
+    """Запрашивает у пользователя время в формате Часы:Минуты и возвращает time"""
     while True:
         user_input = input("Введите время в формате Часы:Минуты : ")
         try:
@@ -35,27 +58,25 @@ def get_user_time():
         except ValueError:
             print("Ошибка: используйте формат Часы:Mинуты (например, 14:30).")
 
-def init_music():                                       #функция выбора музыки
-    music_list = ["mellen.mp3", "morning.mp3", "Barbarossa.mp3"]
-    music = ''
-    while music not in music_list:
-        try:
+user_time = get_user_time()
 
-            music = input(f"Выберите мелодию из списка: {music_list[0]}, {music_list[1]}, {music_list[2]}:  ")
-            if music not in music_list:
-                raise ValueError
+def notification():
+    """Запрашивает у пользователя тип уведомления: звук или текстовое сообщение"""
 
-        except ValueError:
-            print(f"Ошибка. Введите мелодию из списка: {music_list[0]}, {music_list[1]} (например: mellen.mp3).")
-    sound = pygame.mixer.Sound(music)
+    if notif == "текст":
+        print(f"\nВведённое время совпало с текущим! ({user_time.strftime('%H:%M')})")
+    else:
+        choice_music.play()
+        while True:
+            command = input(f"\nВведите 'звук' для остановки будильника: ").strip().lower()
+            if command == "звук":
+                pygame.mixer.stop()  # Останавливаем все звуки
+                print("Звук отключен!")
 
-    return sound
-
-choice_music = init_music()                             #функция выбора музыки
 
 
 def main():
-    user_time = get_user_time()
+
     print(f"Будильник сработает в: {user_time.strftime('%H:%M')}")
 
     while True:
@@ -63,18 +84,7 @@ def main():
         print(f"\rТекущее время: {current_time.strftime('%H:%M:%S')}", end="", flush=True)
 
         if current_time.hour == user_time.hour and current_time.minute == user_time.minute:
-            n = 0
-            if n == 0:
-                if notif == "текст":
-                    print(f"\nВведённое время совпало с текущим! ({user_time.strftime('%H:%M')})")
-                else:
-                    choice_music.play()
-                    while True:
-                        command = input(f"\nВведите 'звук' для остановки будильника: ").strip().lower()
-                        if command == "звук":
-                            pygame.mixer.stop()  # Останавливаем все звуки
-                            print("Звук отключен!")
-                            break
+            notification()
             time_module.sleep(60)
 
 
