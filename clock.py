@@ -1,6 +1,7 @@
 from datetime import datetime, time
 import time as time_module
 import pygame
+from numpy.ma.core import repeat
 
 pygame.mixer.init()
 
@@ -20,6 +21,7 @@ while notif != "сигнал" and notif != "текст":
             raise ValueError
     except ValueError:
         print("Ошибка! Пример ввода: cигнал")
+
 if notif == "сигнал":
     def init_music():
         """Запрашивает у пользователя выбор мелодии для будильника"""
@@ -64,14 +66,35 @@ def notification():
     """Запрашивает у пользователя тип уведомления: звук или текстовое сообщение"""
 
     if notif == "текст":
-        print(f"\nВведённое время совпало с текущим! ({user_time.strftime('%H:%M')})")
+        print(f"\nЗвонит БУДИЛЬНИК! Дзынь Дзынь! Просыпайся, лодырь, пора пахать!({user_time.strftime('%H:%M')})")
     else:
-        choice_music.play()
+
         while True:
-            command = input(f"\nВведите 'звук' для остановки будильника: ").strip().lower()
-            if command == "звук":
-                pygame.mixer.stop()  # Останавливаем все звуки
-                print("Звук отключен!")
+            choice_music.play()
+            command = ""
+            while command != "звук":
+                command = input(f"\nВведите 'звук' для остановки будильника: ").strip().lower()
+                if command == "звук":
+                    pygame.mixer.stop()  # Останавливаем все звуки
+                    print("Звук отключен!")
+            repeat = ''
+            while repeat != "да" and repeat != "нет":
+                try:
+                    repeat = input("Хотите повторить сигнал через 5 минут? да/нет: ")
+                    if repeat != "да" and repeat != "нет":
+                        raise ValueError
+                except ValueError:
+                    print("Ошибка! Введите: да/нет")
+            if repeat == "нет":
+                break
+
+
+            time_module.sleep(10)
+
+
+
+
+
 
 
 
@@ -85,9 +108,9 @@ def main():
 
         if current_time.hour == user_time.hour and current_time.minute == user_time.minute:
             notification()
-            time_module.sleep(60)
+            time_module.sleep(60)             #для задержки цикла, пока не пройдёт минута после отмены звука или текста
 
 
-        time_module.sleep(1)  # Пауза 1 секунда
+        time_module.sleep(1)  # Пауза 1 секунда между циклами
 
 main()
