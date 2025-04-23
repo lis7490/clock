@@ -1,7 +1,7 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 import time as time_module
 import pygame
-from numpy.ma.core import repeat
+
 
 pygame.mixer.init()
 
@@ -70,8 +70,9 @@ def notification():
     else:
 
         while True:
-            choice_music.play()
+            choice_music.play(loops=-1)                     # loops=-1 - Зацикливание музыки
             command = ""
+
             while command != "звук":
                 command = input(f"\nВведите 'звук' для остановки будильника: ").strip().lower()
                 if command == "звук":
