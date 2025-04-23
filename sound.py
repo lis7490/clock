@@ -1,33 +1,35 @@
-from random import choice
+from datetime import datetime, time, timedelta
+import time as time_module
 
-import pygame
-from pygame.examples.music_drop_fade import music_file_list
+a = []
+b = []
+dict = ""
 
-pygame.mixer.init()
-def init_music():
-    music = input("Выберите мелодию из списка: mellen.mp3, morning.mp3: ")
-    sound = pygame.mixer.Sound(music)
-    return sound
+while dict != "нет":
+    user_input = input("Введите время в формате Часы:Минуты : ")
+    c, d = map(int, user_input.split(':'))
+    a.append(c)
+    b.append(d)
+    dict = input("Да или Нет: ")
 
-choice_music = init_music()
+while True:
+    current_time = datetime.now().time()  # Текущее время
+    print(f"\rТекущее время: {current_time.strftime('%H:%M:%S')}", end="", flush=True)
 
-
-for i in range(5):
-    print(f"Итерация {i}")
-    if i == 3:
-        choice_music.play()
-        while True:
-            try:
-                command = input("Введите 'стоп' для остановки звука: ").strip().lower()
-                if command != "стоп":
-                    raise ValueError
-
-                if command == "стоп":
-                    pygame.mixer.stop()  # Останавливаем все звуки
-                    print("Звук остановлен!")
-            except ValueError:
-                print("Введенная команда не верна, нужно вводить: 'стоп'")
-                break
+    for i in a:
+        if current_time.hour == i:
+            d = 1
+    for j in b:
+        if current_time.minute == j:
+            c = 1
+    if d == 1 and c == 1:
+        print("ДААААА")
+    time_module.sleep(1)
 
 
-        #pygame.time.delay(100000)  # Задержка (мс)
+
+
+
+
+
+print(a, b)
