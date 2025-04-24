@@ -1,12 +1,13 @@
 
-def notification():
-    if notif == "текст":
-        print(f"\nВведённое время совпало с текущим! ({user_time.strftime('%H:%M')})")
-    else:
-        choice_music.play()
-        while True:
-            command = input(f"\nВведите 'звук' для остановки будильника: ").strip().lower()
-            if command == "звук":
-                pygame.mixer.stop()  # Останавливаем все звуки
-                print("Звук отключен!")
-notification()
+from datetime import datetime, time, timedelta
+import time as time_module
+import pygame
+
+current_time = datetime.now().strftime('%m,%d %H:%M:%S')
+user_input = input("Введите время в формате Месяц:Число:Часы:Минуты : ")
+a, b, c, d = user_input.split(':')
+
+if datetime.now().strftime('%m') == a:
+    print("да")
+
+print(current_time)
