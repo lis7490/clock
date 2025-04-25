@@ -144,8 +144,47 @@ elif choose_type_clock == "ежедневный":
             time_module.sleep(1)
 
 
-else:
-    print(choose_type_clock)
+else:                                   # По дням недели
+
+    day = []
+    hrs = []
+    mnt = []
+    dict = ""
+
+    while dict != "нет":
+        user_input = input("Введите время в формате День недели:Часы:Минуты (пример: 1:08:24) : ")
+        a, b, c, = user_input.split(':')
+        if a == 7:
+            a = 1
+        elif a == 6:
+            a = 0
+        else:
+            a += 1
+        day.append(a)
+        hrs.append(b)
+        mnt.append(c)
+        dict = input("Вы хотите добавить будильник? да/нет: ")
+
+        while True:
+            current_time = datetime.now().strftime('%a, %H:%M:%S')  # Текущее время
+            print(f"\rТекущая дата и время: {current_time}", end="", flush=True)
+            A = 0
+            B = 0
+            C = 0
+            for k in day:
+                if datetime.now().strftime('%w') == k:
+                    A = 1
+            for i in hrs:
+                if datetime.now().strftime('%H') == i:
+                    B = 1
+            for j in mnt:
+                if datetime.now().strftime('%M') == j:
+                    C = 1
+            if A == 1 and B == 1 and C == 1:
+                notification()
+
+                time_module.sleep(60)
+            time_module.sleep(1)
 
 
 
