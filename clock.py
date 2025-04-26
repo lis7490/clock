@@ -206,20 +206,7 @@ else:                                   # По дням недели
 
 
 
-# def get_user_time():
-#     """Запрашивает у пользователя время в формате Часы:Минуты и возвращает time"""
-#     while True:
-#         user_input = input("Введите время в формате Часы:Минуты : ")
-#         try:
-#             hours, minutes = map(int, user_input.split(':'))
-#             if 0 <= hours < 24 and 0 <= minutes < 60:
-#                 return time(hour=hours, minute=minutes)
-#             else:
-#                 print("Ошибка: часы (0-23) или минуты (0-59) вне диапазона.")
-#         except ValueError:
-#             print("Ошибка: используйте формат Часы:Mинуты (например, 14:30).")
 
-# user_time = get_user_time()
 
 
 
